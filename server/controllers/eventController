@@ -1,0 +1,61 @@
+const db = require('../models/EventModel')
+const { greatCircleDisance } = require('great-circle-distance');
+
+const eventController = {};
+
+eventController.createEvent = (req, res, next) => {
+  const { timeStr, trigger, latA, longA, latB, longB, intensity, reactionStart, reactionEnd, recoveryEnd } = req.body;
+  const reactionDuration = (Date.parse(reactionEnd) - Date.parse(reactionStart)) / 1000;
+  const recoveryDuration = (Date.parse(recoveryEnd) - Date.parse(reactionEnd)) / 1000;
+  const timestamp = new Date(Date.parse(timeStr))
+
+  db.Event.create({
+    timestamp,
+    trigger,
+    intensity,
+    reaction: {
+      duration: reactionDuration,
+      start: Date(Date.parse(reactionStart)),
+      end: Date(Date.parse(reactionEnd))
+    },
+    recovery: {
+      duration: recovery,
+      start: Date(Date.parse(reactionEnd)),
+      end: Date(Date.parse(recoveryEnd))
+    }
+  })
+    .then(result => {
+      res.locals.newEvent = result;
+      res.locals.locations = { latA, longA, latB, longB }
+      return next();
+    })
+    .catch(err => {
+      return next(err);
+    });
+}
+
+eventController.storeLocations = (req, res, next) => {
+  const { _id } = res.locals.newEvent;
+  const { latA, longA, latB, longB } = res.locals.locations;
+
+  const locA = Location.findOneAndUpdate(
+    { latA, longA },
+    { upsert: true }
+  );
+
+  const locB = Location.findOneAndUpdate(
+    { latB, longB },
+    { upsert: true }
+  );
+
+  // FIGURE OUT WHAT TO DO ABOUT ASYNC HERE
+
+  db.Event.findOneAndUpdate(
+    { _id },
+    {
+
+    }
+  )
+}
+
+module.exports = eventController;
