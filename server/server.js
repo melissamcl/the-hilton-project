@@ -16,14 +16,19 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'))
 })
 
-app.post('/',
+app.post('/events',
   eventController.createEvent,
+  eventController.storeLocations,
+  eventController.storeLocations,
+  eventController.getEventDistance,
   (req, res) => {
     res.status(200).send(res.locals.newEvent);
   })
 
 app.use((err, req, res, next) => {
   console.log(err);
+
+  return res.status(400).send();
 })
 
 app.listen(PORT, () => {

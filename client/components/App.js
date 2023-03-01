@@ -1,10 +1,11 @@
 import React from "react";
 
-const App = props => {
+import Form from './Form.js';
+
+const App = () => {
   return (
     <div>
-      <div>test</div>
-      <div>test2</div>
+      <Form />
     </div>
   )
 }
