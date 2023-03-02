@@ -19,13 +19,17 @@
     "@iconify/icons-mdi": "^1.2.42",
     "@iconify/react": "^4.1.0",
     "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "geodist": "^0.2.1",
     "google-map-react": "^2.2.0",
     "mongoose": "^7.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.58.3",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.0",
