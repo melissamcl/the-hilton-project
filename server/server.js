@@ -12,6 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(express.json());
 
+app.use('assets', express.static(path.resolve(__dirname, '..client/assets')));
+
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'))
 })
