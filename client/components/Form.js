@@ -15,10 +15,18 @@ const Form = () => {
     timeStr: '',
     trigger: '',
     intensity: 0,
-    locA: { lat: '', long: '', name: '' }
+    locA: { lat: '', long: '', name: '' },
+    locB: { lat: '', long: '', name: '' },
   })
-  const [locA, setLocA] = useState([]);
-  const [locB, setLocB] = useState([]);
+  const [mapOptions, setMapOptions] = useState({
+    panControl: false,
+    mapTypeControl: false,
+    scrollwheel: false,
+    styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }],
+    draggableCursor: 'default',
+    cursor: 'default',
+    // draggingCursor: 'default',
+  });
 
   const handleChange = (e) => {
     const newFormValues = { ...formValues };
@@ -34,26 +42,72 @@ const Form = () => {
     const newFormValues = { ...formValues };
     const selectedLoc = e.target.id.substring(0, 4);
     const newLocValues = { ...newFormValues[selectedLoc] }
+    const selectedEl = e.target.id.substring(5)
 
-    console.log(newLocValues)
+    newLocValues[selectedEl] = e.target.value;
+    newFormValues[selectedLoc] = newLocValues;
+    setFormValues(newFormValues);
+  }
+
+  const updateLocFromMap = (locId, ...newVals) => {
+    const loc = `loc${locId}`
+    const newFormValues = { ...formValues };
+    const newLocValues = { ...newFormValues[loc] }
+
+    newLocValues.lat = newVals[0];
+    newLocValues.long = newVals[1];
+
+    newFormValues[loc] = newLocValues;
+    setFormValues(newFormValues);
   }
 
   const handleSubmit = () => {
-    const timeStr = document.querySelector('#timestamp').value;
-    const trigger = document.querySelector('#trigger').value;
-    const intensity = document.querySelector('input[name="intensity"]:checked').value
-    const latA = locA
-
-    // fetch('localhost:3000/events/', {
-    //   method: 'POST',
-    //   body: JSON.stringify
+    // const [formValues, setFormValues] = useState({
+    //   timeStr: '',
+    //   trigger: '',
+    //   intensity: 0,
+    //   locA: { lat: '', long: '', name: '' },
+    //   locB: { lat: '', long: '', name: '' },
     // })
-    window.alert(intensity)
+    const reqBody = {
+      timeStr: formValues.timeStr,
+      trigger: formValues.trigger,
+      intensity: formValues.intensity,
+      latA: formValues.locA.lat,
+      longA: formValues.locA.long,
+      // nameA: formValues.locA.name, 
+      latB: formValues.locB.lat,
+      longB: formValues.locB.long,
+      // nameB: formValues.locB.name
+    }
+
+    window.alert(JSON.stringify(reqBody));
+
+    // fetch('http://localhost:3000/events', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   body: JSON.stringify(reqBody),
+    //   headers: { 'Content-Type': 'application/json' }
+    // })
+    //   .then(response => {
+    //     response.json()
+    //     wondow.alert('here')
+    //   })
+    //   .then(json => window.alert(json))
+    //   .catch(err => console.log(err));
   }
 
   const activateSetLoc = (locId) => {
-    console.log(`Form.activateSetLoc: ready to set ${locId}`)
     activateLoc(locId)
+
+    const newMapOptions = {
+      ...mapOptions,
+      draggableCursor: 'crosshair'
+    }
+
+    console.log(newMapOptions)
+
+    setMapOptions(newMapOptions);
   }
 
   return (
@@ -71,10 +125,10 @@ const Form = () => {
         <label>Trigger: </label>
         <select
           id="trigger"
-          defaultValue={'Select trigger'}
           onChange={handleChange}
           value={formValues.trigger}
         >
+          <option value="">Select trigger</option>
           <option value="dog">Dog</option>
           <option value="cat">Cat</option>
         </select>
@@ -147,9 +201,9 @@ const Form = () => {
       <Map
         locations={locations}
         activatedLoc={activatedLoc}
+        updateLocFromMap={updateLocFromMap}
         deactivateSetLoc={() => activateLoc('')}
-        setLocA={setLocA}
-        setLocB={setLocB}
+        mapOptions={mapOptions}
       />
 
       <div className="form-elements">
@@ -182,11 +236,32 @@ const Form = () => {
 
       <div className="form-elements">
         <label>Location B: </label>
-        <input id="latB" placeholder={'lat'} value={locB[0]}></input>
-        <input id="longB" placeholder={'long'} value={locB[1]}></input>
-        <input id="nameB" placeholder="optional name" value={locB[2]}></input>
-        <button type="button" onClick={() => activateSetLoc('B')}>Set on map</button>
+        <input
+          id="locB-lat"
+          className="latlong"
+          placeholder={'lat'}
+          value={formValues.locB.lat}
+          onChange={handleLocChange}
+        />
+        <input
+          id="locB-long"
+          className="latlong"
+          placeholder={'long'}
+          value={formValues.locB.long}
+          onChange={handleLocChange}
+        />
+        <input id="locB-name"
+          placeholder="optional name"
+          value={formValues.locB.name}
+          onChange={handleLocChange}
+        />
+        <button
+          type="button"
+          onClick={() => activateSetLoc('B')}>
+          Set on map
+        </button>
       </div>
+
       <button type="submit">Submit</button>
     </form>
   )

@@ -4,6 +4,7 @@ const geodist = require('geodist');
 const eventController = {};
 
 eventController.createEvent = (req, res, next) => {
+  console.log('eventController.createEvent')
   const { timeStr, trigger, latA, longA, latB, longB, intensity, reactionStart, reactionEnd, recoveryEnd } = req.body;
   const reactionDuration = (Date.parse(reactionEnd) - Date.parse(reactionStart)) / 1000;
   const recoveryDuration = (Date.parse(recoveryEnd) - Date.parse(reactionEnd)) / 1000;
@@ -80,6 +81,16 @@ eventController.getEventDistance = (req, res, next) => {
 
   return next();
 
+}
+
+eventController.deleteEvents = (req, res, next) => {
+  db.Event.deleteMany()
+    .then(result => {
+      return next()
+    })
+    .catch(err => {
+      return next(err)
+    })
 }
 
 module.exports = eventController;

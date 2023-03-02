@@ -18,11 +18,19 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'))
 })
 
+console.log('server.js line 21')
+
 app.post('/events',
   eventController.createEvent,
   eventController.storeLocations,
   eventController.storeLocations,
   eventController.getEventDistance,
+  (req, res) => {
+    res.status(200).send(res.locals.newEvent);
+  })
+
+app.delete('/events',
+  eventController.deleteEvents,
   (req, res) => {
     res.status(200).send(res.locals.newEvent);
   })

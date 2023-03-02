@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
@@ -7,28 +7,34 @@ import locationIcon from '@iconify/icons-mdi/map-marker'
 const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA';
 
 const Map = (props) => {
+  const [locationPins, setLocationPins] = useState([]);
+
   const handleClick = ({ x, y, lat, lng, event }) => {
-    if (props.activatedLoc === 'A') {
-      props.setLocA([lat, lng])
+    if (props.activatedLoc) {
+      props.updateLocFromMap(props.activatedLoc, lat, lng)
+      // props.deactivateSetLoc()
+
+      const newLocationPins = []
+      for (let pin of locationPins) {
+        if (pin.props.label != props.activatedLoc) {
+          newLocationPins.push(pin);
+        }
+      };
+
+      newLocationPins.push(
+        <LocationPin
+          lat={lat}
+          lng={lng}
+          label={props.activatedLoc}
+        />
+      )
+      setLocationPins(newLocationPins);
     }
-    if (props.activatedLoc === 'B') {
-      props.setLocB([lat, lng])
-    }
-    props.deactivateSetLoc()
   }
 
-  const handleChildClick = (lat, lng, label) => {
-    console.log('Map.handleChildClick:', lat, lng, label)
-  }
-
-  const locationPins = [
-    // <LocationPin
-    //   lat={locations.locations.A.lat}
-    //   lng={locations.locations.A.lng}
-    //   label={''}
-    // />,
-
-  ]
+  // const handleChildClick = (lat, lng, label) => {
+  //   console.log('Map.handleChildClick:', lat, lng, label)
+  // }
 
   return (
     <div className="google-map">
@@ -37,9 +43,10 @@ const Map = (props) => {
         defaultCenter={props.locations.A}
         defaultZoom={20}
         yesIWantToUseGoogleMapApiInternals={true}
-        onGoogleApiLoaded={({ map, maps }) => console.log('Map.GoogleMapReact component:', 'loaded map')}
+        // onGoogleApiLoaded={({ map, maps }) => console.log('Map.GoogleMapReact component:', 'loaded map')}
         onClick={handleClick}
-        onChildClick={handleChildClick}
+        onChildClick={handleClick}
+        options={props.mapOptions}
       >
         {locationPins}
 
