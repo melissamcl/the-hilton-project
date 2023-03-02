@@ -25,8 +25,8 @@ const Form = () => {
     styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }],
     draggableCursor: 'default',
     cursor: 'default',
-    // draggingCursor: 'default',
   });
+  const [buttonClasses, setButtonClasses] = useState({ A: 'button-inactive', B: 'button-inactive' })
 
   const handleChange = (e) => {
     const newFormValues = { ...formValues };
@@ -100,14 +100,19 @@ const Form = () => {
   const activateSetLoc = (locId) => {
     activateLoc(locId)
 
-    const newMapOptions = {
-      ...mapOptions,
-      draggableCursor: 'crosshair'
+    const newMapOptions = { ...mapOptions }
+    if (locId) {
+      newMapOptions.draggableCursor = 'crosshair'
+    } else {
+      newMapOptions.draggableCursor = 'default'
     }
 
-    console.log(newMapOptions)
-
     setMapOptions(newMapOptions);
+
+    const newButtonClasses = { A: 'button-inactive', B: 'button-inactive' };
+    newButtonClasses[locId] = 'button-active';
+    setButtonClasses(newButtonClasses);
+
   }
 
   return (
@@ -202,7 +207,11 @@ const Form = () => {
         locations={locations}
         activatedLoc={activatedLoc}
         updateLocFromMap={updateLocFromMap}
-        deactivateSetLoc={() => activateLoc('')}
+        toggleSetLoc={() => {
+          if (activatedLoc === 'A' && !formValues.locB.lat) activateSetLoc('B');
+          else if (activatedLoc === 'B' && !formValues.locA.lat) activateSetLoc('A');
+          else activateSetLoc('');
+        }}
         mapOptions={mapOptions}
       />
 
@@ -228,8 +237,10 @@ const Form = () => {
           onChange={handleLocChange}
         />
         <button
+          id="button-A"
+          className={buttonClasses.A}
           type="button"
-          onClick={() => activateSetLoc('A')}>
+          onClick={() => { activateSetLoc('A') }}>
           Set on map
         </button>
       </div>
@@ -256,6 +267,8 @@ const Form = () => {
           onChange={handleLocChange}
         />
         <button
+          id="button-B"
+          className={buttonClasses.B}
           type="button"
           onClick={() => activateSetLoc('B')}>
           Set on map

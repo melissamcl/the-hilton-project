@@ -1,25 +1,62 @@
-// /* SCSS HEX */
-// $antiflash-white: #eaebedff;
-// $cerulean: #006989ff;
-// $cadet-gray: #a3bac3ff;
-// $cerulean-2: #007090ff;
-// $moonstone: #01a7c2ff;
+/* SCSS HEX */
+$antiflash-white: #eaebedff;
+$cerulean: #006989ff;
+$cadet-gray: #a3bac3ff;
+$cerulean-2: #007090ff;
+$moonstone: #01a7c2ff;
 
-// /* SCSS Gradient */
-// $gradient-top: linear-gradient(0deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-right: linear-gradient(90deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-bottom: linear-gradient(180deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-left: linear-gradient(270deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-top-right: linear-gradient(45deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-bottom-right: linear-gradient(135deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-top-left: linear-gradient(225deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-bottom-left: linear-gradient(315deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
-// $gradient-radial: radial-gradient(#eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-right: linear-gradient(90deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-bottom: linear-gradient(180deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-left: linear-gradient(270deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-top-right: linear-gradient(45deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-bottom-right: linear-gradient(135deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-top-left: linear-gradient(225deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-bottom-left: linear-gradient(315deg, #eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
+$gradient-radial: radial-gradient(#eaebedff, #006989ff, #a3bac3ff, #007090ff, #01a7c2ff);
 
+html {
+  height: 100%;
+}
 
-// #root {
-//   font: sans-serif;
-// }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #006989ff;
+  color: #eaebedff;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#form {
+  display: flex;
+  justify-content: center;
+}
+
+#title {
+  margin-top: 75px;
+  margin-bottom: 20px;
+  margin-left: -20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#hilton-gif {
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
+}
+
+#title h1 {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 45px;
+}
 
 .google-map {
   width: 400px;
@@ -46,4 +83,33 @@
 #locA-name,
 #locB-name {
   width: 100px;
+}
+
+.pin {
+  margin-top: -19px;
+  margin-left: -10px;
+  color: #007090ff;
+}
+
+.pin-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.pin-label {
+  display: none;
+}
+
+.button-inactive {}
+
+.button-active {
+  background-color: #01a7c2ff;
+}
+
+button {
+  border: 1px solid;
+  height: 25px;
+  max-width: 150px;
+  align-self: center;
+  border-radius: 3px;
 }

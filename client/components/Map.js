@@ -8,11 +8,13 @@ const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA';
 
 const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
+  const [lineCoordinates, setLineCoordinates] = useState([]);
+  const [mapKey, setMapKey] = useState(0);
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
       props.updateLocFromMap(props.activatedLoc, lat, lng)
-      // props.deactivateSetLoc()
+      props.toggleSetLoc()
 
       const newLocationPins = []
       for (let pin of locationPins) {
@@ -21,29 +23,67 @@ const Map = (props) => {
         }
       };
 
+      let icon;
+      if (props.activatedLoc === 'A') icon = 'twemoji:dog'
+      if (props.activatedLoc === 'B') icon = 'noto:ghost'
+
       newLocationPins.push(
         <LocationPin
+          key={lat + lng}
           lat={lat}
           lng={lng}
           label={props.activatedLoc}
+          icon={icon}
         />
       )
       setLocationPins(newLocationPins);
+      if (newLocationPins.length === 2) {
+        const tempLineCoordinates = [
+          { lat: newLocationPins[0].props.lat, lng: newLocationPins[0].props.lng },
+          { lat: newLocationPins[1].props.lat, lng: newLocationPins[1].props.lng }
+        ]
+        setLineCoordinates(tempLineCoordinates);
+        setMapKey(mapKey + 1);
+      }
     }
+
   }
 
-  // const handleChildClick = (lat, lng, label) => {
-  //   console.log('Map.handleChildClick:', lat, lng, label)
-  // }
+  const handleGoogleMapApi = (google) => {
+    const lineSymbol = {
+      path: "M 0,-1 0,1",
+      strokeOpacity: 1,
+      scale: 2,
+      strokeColor: "#007090ff"
+    };
+
+    const line = new google.maps.Polyline({
+      path: lineCoordinates,
+      geodesic: true,
+      // strokeColor: "#007090ff",
+      strokeOpacity: 0,
+      icons: [
+        {
+          icon: lineSymbol,
+          offset: "0",
+          repeat: "10px"
+        }
+      ],
+      strokeWeight: 1,
+    })
+
+    return line.setMap(google.map);
+  }
 
   return (
     <div className="google-map">
       <GoogleMapReact
+        key={mapKey}
         bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
         defaultCenter={props.locations.A}
         defaultZoom={20}
-        yesIWantToUseGoogleMapApiInternals={true}
-        // onGoogleApiLoaded={({ map, maps }) => console.log('Map.GoogleMapReact component:', 'loaded map')}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={(google) => handleGoogleMapApi(google)}
         onClick={handleClick}
         onChildClick={handleClick}
         options={props.mapOptions}
@@ -55,34 +95,17 @@ const Map = (props) => {
   )
 };
 
-const LocationPin = ({ label }) => (
+const LocationPin = ({ label, icon }) => (
   <div className="pin">
-    <Icon icon={locationIcon} className="pin-icon" />
+    <Icon icon={icon} className="pin-icon" />
     <p className="pin-label">{label}</p>
   </div>
 )
 
-// const loader = new Loader({
-//   apiKey: "AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA",
-//   version: "weekly",
-//   libraries: ["places"]
-// });
+const DistanceLabel = ({ label }) => (
+  <div className="dist-label">
 
-// const mapOptions = {
-//   center: {
-//     lat: 35.8,
-//     lng: -78.7
-//   },
-//   zoom: 8
-// };
-
-// loader
-//   .load()
-//   .then((google) => {
-//     new google.maps.Map(document.getElementById("map"), mapOptions);
-//   })
-//   .catch(e => {
-//     console.log('google map error')
-//   });
+  </div>
+)
 
 export default Map;
