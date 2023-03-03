@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Map from './Map.js';
+import geodist from 'geodist';
 
 const Form = () => {
   const [activatedLoc, activateLoc] = useState('')
@@ -19,6 +20,7 @@ const Form = () => {
     cursor: 'default',
   });
   const [buttonClasses, setButtonClasses] = useState({ A: 'button-inactive', B: 'button-inactive' })
+  const [distance, setDistance] = useState(null);
 
   const handleChange = (e) => {
     const newFormValues = { ...formValues };
@@ -39,6 +41,22 @@ const Form = () => {
     newLocValues[selectedEl] = e.target.value;
     newFormValues[selectedLoc] = newLocValues;
     setFormValues(newFormValues);
+
+    const latA = newFormValues.locA.lat;
+    const longA = newFormValues.locA.long;
+    const latB = formVnewFormValuesalues.locB.lat;
+    const longB = newFormValues.locB.long;
+    getDist(latA, longA, latB, longB);
+  }
+
+  const getDist = (latA, longA, latB, longB) => {
+    let distance;
+    if (latA && longA && latB && longB) {
+      distance = geodist({ latA, longA }, { latB, longB }, { exact: true, unit: 'feet' });
+    }
+
+    setDistance(distance);
+    console.log(distance);
   }
 
   const updateLocFromMap = (locId, ...newVals) => {
@@ -73,15 +91,16 @@ const Form = () => {
       // nameB: formValues.locB.name
     }
 
-    window.alert(JSON.stringify(reqBody))
-
     fetch('//localhost:3000/events/', {
       method: 'POST',
       body: JSON.stringify(reqBody),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(response => response.json())
-      .then(json => window.alert(json))
+      .then(data => {
+        const res = document.getElementById('result');
+        res.innerText = data;
+      })
       .catch(err => console.log(err));
   }
 
@@ -100,7 +119,6 @@ const Form = () => {
     const newButtonClasses = { A: 'button-inactive', B: 'button-inactive' };
     newButtonClasses[locId] = 'button-active';
     setButtonClasses(newButtonClasses);
-
   }
 
   return (
@@ -200,6 +218,8 @@ const Form = () => {
           else activateSetLoc('');
         }}
         mapOptions={mapOptions}
+        getDist={getDist}
+        distance={distance}
       />
 
       <div className="form-elements">
@@ -210,6 +230,7 @@ const Form = () => {
           placeholder={'lat'}
           value={formValues.locA.lat}
           onChange={handleLocChange}
+          onInput={handleLocChange}
         />
         <input
           id="locA-long"

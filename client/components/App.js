@@ -11,6 +11,9 @@ const App = () => {
       </div>
 
       <Form />
+      <div id="result">
+
+      </div>
     </div>
   )
 }

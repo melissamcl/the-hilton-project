@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react'
-import geodist from 'geodist';
 
 // import { Loader } from '@googlemaps/js-api-loader';
 
@@ -13,6 +12,7 @@ const Map = (props) => {
   const [mapKey, setMapKey] = useState(0);
   const [mapCenter, setMapCenter] = useState({ lat: 35.7796, lng: -78.6381 });
   const [mapZoom, setMapZoom] = useState(15);
+  // const [distancePin, setDistancePin] = useState([]);
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
@@ -53,8 +53,25 @@ const Map = (props) => {
         ]
         setLineCoordinates(tempLineCoordinates);
         setMapKey(mapKey + 1);
+
+        props.getDist(lat1, lng1, lat2, lng2);
+        // const midLat = (lat1 + lat2) / 2
+        // const midLong = (lng1 + lng2) / 2
+
+        // const newDistLabel = []
+        // newDistLabel.push(
+        //   <DistanceLabel
+        //     key={lat + lng}
+        //     lat={midLat}
+        //     lng={midLong}
+        //     label={dist}
+        //   />
+        // )
+        // console.log(newDistLabel);
+        // setDistancePin(newDistLabel);
       }
     }
+
 
   }
 
@@ -107,6 +124,7 @@ const Map = (props) => {
         options={props.mapOptions}
       >
         {locationPins}
+        {/* {distancePin} */}
 
       </GoogleMapReact>
     </div>
@@ -120,15 +138,13 @@ const LocationPin = ({ label, icon }) => (
   </div>
 )
 
-const DistanceLabel = ({ label }) => {
-
-
-  return (
-    <div className="dist-label">
-
-    </div>
-  )
-}
+// const DistanceLabel = ({ label }) => {
+//   return (
+//     <div className="dist-label">
+//       {label}
+//     </div>
+//   )
+// }
 
 
 export default Map;
