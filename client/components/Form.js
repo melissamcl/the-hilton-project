@@ -73,20 +73,16 @@ const Form = () => {
       // nameB: formValues.locB.name
     }
 
-    window.alert(JSON.stringify(reqBody));
+    window.alert(JSON.stringify(reqBody))
 
-    // fetch('http://localhost:3000/events', {
-    //   method: 'POST',
-    //   mode: 'no-cors',
-    //   body: JSON.stringify(reqBody),
-    //   headers: { 'Content-Type': 'application/json' }
-    // })
-    //   .then(response => {
-    //     response.json()
-    //     wondow.alert('here')
-    //   })
-    //   .then(json => window.alert(json))
-    //   .catch(err => console.log(err));
+    fetch('//localhost:3000/events/', {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(json => window.alert(json))
+      .catch(err => console.log(err));
   }
 
   const activateSetLoc = (locId) => {

@@ -14,16 +14,16 @@ eventController.createEvent = (req, res, next) => {
     timestamp,
     trigger,
     intensity,
-    reaction: {
-      duration: reactionDuration,
-      start: Date(Date.parse(reactionStart)),
-      end: Date(Date.parse(reactionEnd))
-    },
-    recovery: {
-      duration: recoveryDuration,
-      start: Date(Date.parse(reactionEnd)),
-      end: Date(Date.parse(recoveryEnd))
-    }
+    // reaction: {
+    //   duration: reactionDuration,
+    //   start: Date(Date.parse(reactionStart)),
+    //   end: Date(Date.parse(reactionEnd))
+    // },
+    // recovery: {
+    //   duration: recoveryDuration,
+    //   start: Date(Date.parse(reactionEnd)),
+    //   end: Date(Date.parse(recoveryEnd))
+    // }
   })
     .then(result => {
       res.locals.newEvent = result;
@@ -85,6 +85,16 @@ eventController.getEventDistance = (req, res, next) => {
 
 eventController.deleteEvents = (req, res, next) => {
   db.Event.deleteMany()
+    .then(result => {
+      return next()
+    })
+    .catch(err => {
+      return next(err)
+    })
+}
+
+eventController.deleteLocations = (req, res, next) => {
+  db.Location.deleteMany()
     .then(result => {
       return next()
     })

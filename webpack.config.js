@@ -51,7 +51,7 @@ module.exports = {
     hot: true,
     port: 8080,
     proxy: {
-      '/client': 'http://localhost:3000'
+      '/client': 'http://localhost:3000',
     }
   },
 }

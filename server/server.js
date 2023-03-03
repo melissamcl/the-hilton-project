@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const path = require('path');
+const cors = require("cors")
+app.use(cors())
 
 const eventController = require('./controllers/eventController')
 
@@ -18,6 +20,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'))
 })
 
+
 console.log('server.js line 21')
 
 app.post('/events',
@@ -31,6 +34,7 @@ app.post('/events',
 
 app.delete('/events',
   eventController.deleteEvents,
+  eventController.deleteLocations,
   (req, res) => {
     res.status(200).send(res.locals.newEvent);
   })

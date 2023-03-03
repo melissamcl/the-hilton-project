@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react'
-import locationIcon from '@iconify/icons-mdi/map-marker'
+import geodist from 'geodist';
+
 // import { Loader } from '@googlemaps/js-api-loader';
 
 const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA';
@@ -10,8 +11,8 @@ const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
   const [lineCoordinates, setLineCoordinates] = useState([]);
   const [mapKey, setMapKey] = useState(0);
-  const [mapCenter, setMapCenter] = useState({ lat: 35.7797, lng: -78.6413 });
-  const [mapZoom, setMapZoom] = useState(12);
+  const [mapCenter, setMapCenter] = useState({ lat: 35.7796, lng: -78.6381 });
+  const [mapZoom, setMapZoom] = useState(15);
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
@@ -119,10 +120,15 @@ const LocationPin = ({ label, icon }) => (
   </div>
 )
 
-const DistanceLabel = ({ label }) => (
-  <div className="dist-label">
+const DistanceLabel = ({ label }) => {
 
-  </div>
-)
+
+  return (
+    <div className="dist-label">
+
+    </div>
+  )
+}
+
 
 export default Map;

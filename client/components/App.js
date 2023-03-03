@@ -7,7 +7,7 @@ const App = () => {
     <div id="app">
       <div id="title">
         <img id="hilton-gif" src="/assets/hilton.gif" />
-        <h1>Hilton Tracker</h1>
+        <h1>The Hilton Project</h1>
       </div>
 
       <Form />
