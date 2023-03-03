@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
@@ -10,6 +10,8 @@ const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
   const [lineCoordinates, setLineCoordinates] = useState([]);
   const [mapKey, setMapKey] = useState(0);
+  const [mapCenter, setMapCenter] = useState({ lat: 35.7797, lng: -78.6413 });
+  const [mapZoom, setMapZoom] = useState(12);
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
@@ -37,10 +39,16 @@ const Map = (props) => {
         />
       )
       setLocationPins(newLocationPins);
+
       if (newLocationPins.length === 2) {
+        const lat1 = newLocationPins[0].props.lat
+        const lng1 = newLocationPins[0].props.lng
+        const lat2 = newLocationPins[1].props.lat
+        const lng2 = newLocationPins[1].props.lng
+
         const tempLineCoordinates = [
-          { lat: newLocationPins[0].props.lat, lng: newLocationPins[0].props.lng },
-          { lat: newLocationPins[1].props.lat, lng: newLocationPins[1].props.lng }
+          { lat: lat1, lng: lng1 },
+          { lat: lat2, lng: lng2 }
         ]
         setLineCoordinates(tempLineCoordinates);
         setMapKey(mapKey + 1);
@@ -75,17 +83,26 @@ const Map = (props) => {
     return line.setMap(google.map);
   }
 
+  const handleChange = ({ center, zoom }) => {
+    const newCenter = center;
+    const newZoom = zoom;
+
+    setMapCenter(newCenter);
+    setMapZoom(newZoom);
+  }
+
   return (
     <div className="google-map">
       <GoogleMapReact
         key={mapKey}
         bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-        defaultCenter={props.locations.A}
-        defaultZoom={20}
+        center={mapCenter}
+        zoom={mapZoom}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={(google) => handleGoogleMapApi(google)}
         onClick={handleClick}
         onChildClick={handleClick}
+        onChange={handleChange}
         options={props.mapOptions}
       >
         {locationPins}

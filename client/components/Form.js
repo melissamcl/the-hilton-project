@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Map from './Map.js';
 
-
-const locations = {
-  A: {
-    lat: 35.84912,
-    lng: -78.67654
-  }
-}
-
 const Form = () => {
   const [activatedLoc, activateLoc] = useState('')
   const [formValues, setFormValues] = useState({
@@ -22,7 +14,7 @@ const Form = () => {
     panControl: false,
     mapTypeControl: false,
     scrollwheel: false,
-    styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }],
+    styles: [{ stylers: [{ 'saturation': 50 }, { 'gamma': 1 }, { 'lightness': 4 }, { 'visibility': 'on' }] }],
     draggableCursor: 'default',
     cursor: 'default',
   });
@@ -204,7 +196,6 @@ const Form = () => {
       </div>
 
       <Map
-        locations={locations}
         activatedLoc={activatedLoc}
         updateLocFromMap={updateLocFromMap}
         toggleSetLoc={() => {
@@ -275,7 +266,10 @@ const Form = () => {
         </button>
       </div>
 
-      <button type="submit">Submit</button>
+      <div id="form-buttons">
+        <button id="button-submit" type="submit">Submit</button>
+        <button id="button-reset" type="reset">Clear form</button>
+      </div>
     </form>
   )
 }
