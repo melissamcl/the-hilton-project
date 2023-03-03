@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 
 // import { Loader } from '@googlemaps/js-api-loader';
 
-const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA';
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
