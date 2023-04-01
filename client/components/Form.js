@@ -1,25 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import Map from './Map.js';
 import geodist from 'geodist';
 
 const Form = () => {
-  const [activatedLoc, activateLoc] = useState('')
+  const [activatedLoc, activateLoc] = useState('');
   const [formValues, setFormValues] = useState({
     timeStr: '',
     trigger: '',
     intensity: 0,
     locA: { lat: '', long: '', name: '' },
     locB: { lat: '', long: '', name: '' },
-  })
+  });
   const [mapOptions, setMapOptions] = useState({
     panControl: false,
     mapTypeControl: false,
     scrollwheel: false,
-    styles: [{ stylers: [{ 'saturation': 50 }, { 'gamma': 1 }, { 'lightness': 4 }, { 'visibility': 'on' }] }],
+    styles: [
+      {
+        stylers: [
+          { saturation: 50 },
+          { gamma: 1 },
+          { lightness: 4 },
+          { visibility: 'on' },
+        ],
+      },
+    ],
     draggableCursor: 'default',
     cursor: 'default',
   });
-  const [buttonClasses, setButtonClasses] = useState({ A: 'button-inactive', B: 'button-inactive' })
+  const [buttonClasses, setButtonClasses] = useState({
+    A: 'button-inactive',
+    B: 'button-inactive',
+  });
   const [distance, setDistance] = useState(null);
 
   const handleChange = (e) => {
@@ -30,13 +42,13 @@ const Form = () => {
 
     newFormValues[elId] = e.target.value;
     setFormValues(newFormValues);
-  }
+  };
 
   const handleLocChange = (e) => {
     const newFormValues = { ...formValues };
     const selectedLoc = e.target.id.substring(0, 4);
-    const newLocValues = { ...newFormValues[selectedLoc] }
-    const selectedEl = e.target.id.substring(5)
+    const newLocValues = { ...newFormValues[selectedLoc] };
+    const selectedEl = e.target.id.substring(5);
 
     newLocValues[selectedEl] = e.target.value;
     newFormValues[selectedLoc] = newLocValues;
@@ -47,29 +59,33 @@ const Form = () => {
     const latB = formVnewFormValuesalues.locB.lat;
     const longB = newFormValues.locB.long;
     getDist(latA, longA, latB, longB);
-  }
+  };
 
   const getDist = (latA, longA, latB, longB) => {
     let distance;
     if (latA && longA && latB && longB) {
-      distance = geodist({ latA, longA }, { latB, longB }, { exact: true, unit: 'feet' });
+      distance = geodist(
+        { latA, longA },
+        { latB, longB },
+        { exact: true, unit: 'feet' }
+      );
     }
 
     setDistance(distance);
     console.log(distance);
-  }
+  };
 
   const updateLocFromMap = (locId, ...newVals) => {
-    const loc = `loc${locId}`
+    const loc = `loc${locId}`;
     const newFormValues = { ...formValues };
-    const newLocValues = { ...newFormValues[loc] }
+    const newLocValues = { ...newFormValues[loc] };
 
     newLocValues.lat = newVals[0];
     newLocValues.long = newVals[1];
 
     newFormValues[loc] = newLocValues;
     setFormValues(newFormValues);
-  }
+  };
 
   const handleSubmit = () => {
     // const [formValues, setFormValues] = useState({
@@ -85,33 +101,33 @@ const Form = () => {
       intensity: formValues.intensity,
       latA: formValues.locA.lat,
       longA: formValues.locA.long,
-      // nameA: formValues.locA.name, 
+      // nameA: formValues.locA.name,
       latB: formValues.locB.lat,
       longB: formValues.locB.long,
       // nameB: formValues.locB.name
-    }
+    };
 
-    fetch('//localhost:3000/events/', {
+    fetch('/events', {
       method: 'POST',
       body: JSON.stringify(reqBody),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         const res = document.getElementById('result');
         res.innerText = data;
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   const activateSetLoc = (locId) => {
-    activateLoc(locId)
+    activateLoc(locId);
 
-    const newMapOptions = { ...mapOptions }
+    const newMapOptions = { ...mapOptions };
     if (locId) {
-      newMapOptions.draggableCursor = 'crosshair'
+      newMapOptions.draggableCursor = 'crosshair';
     } else {
-      newMapOptions.draggableCursor = 'default'
+      newMapOptions.draggableCursor = 'default';
     }
 
     setMapOptions(newMapOptions);
@@ -119,7 +135,7 @@ const Form = () => {
     const newButtonClasses = { A: 'button-inactive', B: 'button-inactive' };
     newButtonClasses[locId] = 'button-active';
     setButtonClasses(newButtonClasses);
-  }
+  };
 
   return (
     <form id="main-form" onSubmit={handleSubmit}>
@@ -134,11 +150,7 @@ const Form = () => {
       </div>
       <div className="form-elements">
         <label>Trigger: </label>
-        <select
-          id="trigger"
-          onChange={handleChange}
-          value={formValues.trigger}
-        >
+        <select id="trigger" onChange={handleChange} value={formValues.trigger}>
           <option value="">Select trigger</option>
           <option value="dog">Dog</option>
           <option value="cat">Cat</option>
@@ -152,9 +164,10 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="0"
-            checked={formValues.intensity === "0"}
+            checked={formValues.intensity === '0'}
             onChange={handleChange}
-          />0
+          />
+          0
         </div>
         <div>
           <input
@@ -162,7 +175,7 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="1"
-            checked={formValues.intensity === "1"}
+            checked={formValues.intensity === '1'}
             onChange={handleChange}
           />
           1
@@ -173,9 +186,10 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="2"
-            checked={formValues.intensity === "2"}
+            checked={formValues.intensity === '2'}
             onChange={handleChange}
-          />2
+          />
+          2
         </div>
         <div>
           <input
@@ -183,9 +197,10 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="3"
-            checked={formValues.intensity === "3"}
+            checked={formValues.intensity === '3'}
             onChange={handleChange}
-          />3
+          />
+          3
         </div>
         <div>
           <input
@@ -193,9 +208,10 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="4"
-            checked={formValues.intensity === "4"}
+            checked={formValues.intensity === '4'}
             onChange={handleChange}
-          />4
+          />
+          4
         </div>
         <div>
           <input
@@ -203,9 +219,10 @@ const Form = () => {
             type="radio"
             name="intensity"
             value="5"
-            checked={formValues.intensity === "5"}
+            checked={formValues.intensity === '5'}
             onChange={handleChange}
-          />5
+          />
+          5
         </div>
       </div>
 
@@ -214,7 +231,8 @@ const Form = () => {
         updateLocFromMap={updateLocFromMap}
         toggleSetLoc={() => {
           if (activatedLoc === 'A' && !formValues.locB.lat) activateSetLoc('B');
-          else if (activatedLoc === 'B' && !formValues.locA.lat) activateSetLoc('A');
+          else if (activatedLoc === 'B' && !formValues.locA.lat)
+            activateSetLoc('A');
           else activateSetLoc('');
         }}
         mapOptions={mapOptions}
@@ -239,7 +257,8 @@ const Form = () => {
           value={formValues.locA.long}
           onChange={handleLocChange}
         />
-        <input id="locA-name"
+        <input
+          id="locA-name"
           placeholder="optional name"
           value={formValues.locA.name}
           onChange={handleLocChange}
@@ -248,7 +267,10 @@ const Form = () => {
           id="button-A"
           className={buttonClasses.A}
           type="button"
-          onClick={() => { activateSetLoc('A') }}>
+          onClick={() => {
+            activateSetLoc('A');
+          }}
+        >
           Set on map
         </button>
       </div>
@@ -269,7 +291,8 @@ const Form = () => {
           value={formValues.locB.long}
           onChange={handleLocChange}
         />
-        <input id="locB-name"
+        <input
+          id="locB-name"
           placeholder="optional name"
           value={formValues.locB.name}
           onChange={handleLocChange}
@@ -278,17 +301,22 @@ const Form = () => {
           id="button-B"
           className={buttonClasses.B}
           type="button"
-          onClick={() => activateSetLoc('B')}>
+          onClick={() => activateSetLoc('B')}
+        >
           Set on map
         </button>
       </div>
 
       <div id="form-buttons">
-        <button id="button-submit" type="submit">Submit</button>
-        <button id="button-reset" type="reset">Clear form</button>
+        <button id="button-submit" type="submit">
+          Submit
+        </button>
+        <button id="button-reset" type="reset">
+          Clear form
+        </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
 export default Form;

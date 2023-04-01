@@ -1,10 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 
-// import { Loader } from '@googlemaps/js-api-loader';
-
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA'; //process.env.GOOGLE_API_KEY;
 
 const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
@@ -16,19 +14,19 @@ const Map = (props) => {
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
-      props.updateLocFromMap(props.activatedLoc, lat, lng)
-      props.toggleSetLoc()
+      props.updateLocFromMap(props.activatedLoc, lat, lng);
+      props.toggleSetLoc();
 
-      const newLocationPins = []
+      const newLocationPins = [];
       for (let pin of locationPins) {
         if (pin.props.label != props.activatedLoc) {
           newLocationPins.push(pin);
         }
-      };
+      }
 
       let icon;
-      if (props.activatedLoc === 'A') icon = 'twemoji:dog'
-      if (props.activatedLoc === 'B') icon = 'noto:ghost'
+      if (props.activatedLoc === 'A') icon = 'twemoji:dog';
+      if (props.activatedLoc === 'B') icon = 'noto:ghost';
 
       newLocationPins.push(
         <LocationPin
@@ -38,19 +36,19 @@ const Map = (props) => {
           label={props.activatedLoc}
           icon={icon}
         />
-      )
+      );
       setLocationPins(newLocationPins);
 
       if (newLocationPins.length === 2) {
-        const lat1 = newLocationPins[0].props.lat
-        const lng1 = newLocationPins[0].props.lng
-        const lat2 = newLocationPins[1].props.lat
-        const lng2 = newLocationPins[1].props.lng
+        const lat1 = newLocationPins[0].props.lat;
+        const lng1 = newLocationPins[0].props.lng;
+        const lat2 = newLocationPins[1].props.lat;
+        const lng2 = newLocationPins[1].props.lng;
 
         const tempLineCoordinates = [
           { lat: lat1, lng: lng1 },
-          { lat: lat2, lng: lng2 }
-        ]
+          { lat: lat2, lng: lng2 },
+        ];
         setLineCoordinates(tempLineCoordinates);
         setMapKey(mapKey + 1);
 
@@ -71,35 +69,32 @@ const Map = (props) => {
         // setDistancePin(newDistLabel);
       }
     }
-
-
-  }
+  };
 
   const handleGoogleMapApi = (google) => {
     const lineSymbol = {
-      path: "M 0,-1 0,1",
+      path: 'M 0,-1 0,1',
       strokeOpacity: 1,
       scale: 2,
-      strokeColor: "#007090ff"
+      strokeColor: '#007090ff',
     };
 
     const line = new google.maps.Polyline({
       path: lineCoordinates,
       geodesic: true,
-      // strokeColor: "#007090ff",
       strokeOpacity: 0,
       icons: [
         {
           icon: lineSymbol,
-          offset: "0",
-          repeat: "10px"
-        }
+          offset: '0',
+          repeat: '10px',
+        },
       ],
       strokeWeight: 1,
-    })
+    });
 
     return line.setMap(google.map);
-  }
+  };
 
   const handleChange = ({ center, zoom }) => {
     const newCenter = center;
@@ -107,7 +102,7 @@ const Map = (props) => {
 
     setMapCenter(newCenter);
     setMapZoom(newZoom);
-  }
+  };
 
   return (
     <div className="google-map">
@@ -125,10 +120,9 @@ const Map = (props) => {
       >
         {locationPins}
         {/* {distancePin} */}
-
       </GoogleMapReact>
     </div>
-  )
+  );
 };
 
 const LocationPin = ({ label, icon }) => (
@@ -136,7 +130,7 @@ const LocationPin = ({ label, icon }) => (
     <Icon icon={icon} className="pin-icon" />
     <p className="pin-label">{label}</p>
   </div>
-)
+);
 
 // const DistanceLabel = ({ label }) => {
 //   return (
@@ -145,6 +139,5 @@ const LocationPin = ({ label, icon }) => (
 //     </div>
 //   )
 // }
-
 
 export default Map;
