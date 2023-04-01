@@ -62,6 +62,7 @@ module.exports = {
     proxy: {
       '/client': 'http://localhost:3000',
       '/events': 'http://localhost:3000',
+      '/key': 'http://localhost:3000',
     },
   },
 };

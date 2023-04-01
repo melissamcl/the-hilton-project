@@ -2,7 +2,15 @@ import React, { useState, useRef } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react';
 
-const GOOGLE_API_KEY = 'AIzaSyBKbRqUGtMYi4hi9bZis1JCUM7J9bMZdFA'; //process.env.GOOGLE_API_KEY;
+let GOOGLE_API_KEY;
+const getGoogleApi = async () => {
+  GOOGLE_API_KEY = await fetch('/key/google_api');
+};
+
+if (!GOOGLE_API_KEY) {
+  getGoogleApi();
+  console.log('google api', GOOGLE_API_KEY);
+}
 
 const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);

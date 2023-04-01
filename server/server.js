@@ -2,9 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const path = require('path');
-const cors = require('cors');
 const morgan = require('morgan');
-// app.use(cors());
 require('dotenv').config();
 const eventController = require('./controllers/eventController');
 
@@ -17,7 +15,7 @@ app.use(morgan('dev'));
 
 app.use('assets', express.static(path.resolve(__dirname, '..client/assets')));
 
-app.get('google_api', (req, res) => {
+app.get('/key/google_api', (req, res) => {
   res.status(200).send(process.env.GOOGLE_API_KEY);
 });
 
