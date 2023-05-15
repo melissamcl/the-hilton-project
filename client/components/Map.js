@@ -11,7 +11,7 @@ const Map = (props) => {
   const [mapZoom, setMapZoom] = useState(15);
   const [distancePin, setDistancePin] = useState([]);
 
-  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+  // const GOOGLE_API_KEY = GOOGLE_API_KEY;
 
   // const defineMap =
 
@@ -111,7 +111,7 @@ const Map = (props) => {
     <div className="google-map">
       <GoogleMapReact
         key={mapKey}
-        bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
+        bootstrapURLKeys={{ key: process.env.GOOGLE_API_KEY }}
         center={mapCenter}
         zoom={mapZoom}
         yesIWantToUseGoogleMapApiInternals
