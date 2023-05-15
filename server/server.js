@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 app.use('assets', express.static(path.resolve(__dirname, '..client/assets')));
 
 app.get('/key/google_api', (req, res) => {
-  res.status(200).send(process.env.GOOGLE_API_KEY);
+  res.status(200).json({ key: process.env.GOOGLE_API_KEY });
 });
 
 app.get('/', (req, res) => {

@@ -1,16 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react';
-
-let GOOGLE_API_KEY;
-const getGoogleApi = async () => {
-  GOOGLE_API_KEY = await fetch('/key/google_api');
-};
-
-if (!GOOGLE_API_KEY) {
-  getGoogleApi();
-  console.log('google api', GOOGLE_API_KEY);
-}
+import { parse } from 'ipaddr.js';
 
 const Map = (props) => {
   const [locationPins, setLocationPins] = useState([]);
@@ -18,7 +9,11 @@ const Map = (props) => {
   const [mapKey, setMapKey] = useState(0);
   const [mapCenter, setMapCenter] = useState({ lat: 35.7796, lng: -78.6381 });
   const [mapZoom, setMapZoom] = useState(15);
-  // const [distancePin, setDistancePin] = useState([]);
+  const [distancePin, setDistancePin] = useState([]);
+
+  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+
+  // const defineMap =
 
   const handleClick = ({ x, y, lat, lng, event }) => {
     if (props.activatedLoc) {
@@ -127,7 +122,7 @@ const Map = (props) => {
         options={props.mapOptions}
       >
         {locationPins}
-        {/* {distancePin} */}
+        {distancePin}
       </GoogleMapReact>
     </div>
   );

@@ -156,6 +156,7 @@ const Form = () => {
           <option value="cat">Cat</option>
         </select>
       </div>
+
       <div className="form-elements">
         <label>Intensity: </label>
         <div>

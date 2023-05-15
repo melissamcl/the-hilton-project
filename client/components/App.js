@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import Form from './Form.js';
 
@@ -11,11 +11,9 @@ const App = () => {
       </div>
 
       <Form />
-      <div id="result">
-
-      </div>
+      <div id="result"></div>
     </div>
-  )
-}
+  );
+};
 
 export default App;
