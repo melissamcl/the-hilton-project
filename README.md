@@ -17,10 +17,13 @@ Install dependencies:
 npm install
 ```
 
-Set up your MongoDB database and google maps API key
+Create your MongoDB database and google maps API key
 
 Set your .env variables:
 <ul>
   <li>MONGO_URI</li>
   <li>GOOGLE_API_KEY</li>
 </ul>
+
+<h2>User Guide</h2>
+<img width="455" alt="Screen Shot 2023-05-24 at 2 02 29 PM" src="https://github.com/melissamcl/the-hilton-project/assets/113558917/772f5b24-c23a-44f2-9803-aae976080fc5">
