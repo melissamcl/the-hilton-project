@@ -11,7 +11,8 @@
 <p>The Hilton Project offers a way to track this training progress, to store all the data so the human can look back on it and see all the progress that has been made, or know when to switch things up if the training isn't progressing.</p>
 
 <h2>Getting Started</h2>
-To use the application, first install dependencies:
+Install dependencies:
+
 ```js
 npm install
 ```
