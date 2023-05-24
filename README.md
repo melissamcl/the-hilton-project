@@ -26,10 +26,12 @@ Set your .env variables:
 </ul>
 
 <h2>User Guide</h2>
-The UI of the app is a simple form.  Simply record events as they happen by inputting the event date and time, selecting the type of trigger your dog encountered, rating the intensity of your dog's reaction on a scale of 0-5, and then marking the locations of your dog as well as the trigger on the map, which will allow the application to calculate and store the distance.
+<p>The UI of the app is a simple form.  Simply record events as they happen by inputting the event date and time, selecting the type of trigger your dog encountered, rating the intensity of your dog's reaction on a scale of 0-5, and then marking the locations of your dog as well as the trigger on the map, which will allow the application to calculate and store the distance.</p>
 
-To set the locations, click the Set on Map button next to Location A.  Mark the location of your dog.  The app will automatically switch to Location B, so you can simply click on the map a second time to mark the location of the trigger.  You may optionally provide a nickname for either location before clicking submit.  If you need to alter either location, simply click the corresponding Set on Map button and click on the map to make the adjustment.
+<p>To set the locations, click the Set on Map button next to Location A.  Mark the location of your dog.  The app will automatically switch to Location B, so you can simply click on the map a second time to mark the location of the trigger.  You may optionally provide a nickname for either location before clicking submit.  If you need to alter either location, simply click the corresponding Set on Map button and click on the map to make the adjustment.
+  <br>
 <img width="455" alt="Screen Shot 2023-05-24 at 2 02 29 PM" src="https://github.com/melissamcl/the-hilton-project/assets/113558917/772f5b24-c23a-44f2-9803-aae976080fc5">
+  </p>
 
 <h2>Next Iteration</h2>
 Currently the app is set up to store data, but I have not built the functionality to view historical data that has been saved.  I would also like to implement a feature to select from a list of saved locations, as many dogs and their owners have a common route that they walk and it may not be necessary to select from the map each time.
