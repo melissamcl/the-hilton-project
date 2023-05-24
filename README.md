@@ -1,5 +1,6 @@
 # The Hilton Project
 
+<h1>Background</h1>
 Most of us get a dog and think the only thing we will need to train them on is basic obedience - sit, stay, don't pull me down a hill if you see a squirrel...
 
 But dogs, like people, each have their own genetic makeup and history that causes them to have their own feelings about the world around them.  My dog, Hilton, is one of many that we might define as reactive or simply, anxious.  For Hilton, this means that when he sees another dog while out on a walk, his innate reaction is to vocalize (loudly!) and sometimes lunge toward the other dog.  This is distance creating behavior, his way of telling the other dog to go away, but it can be scary for all parties and is generally not ideal.
