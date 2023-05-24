@@ -30,7 +30,7 @@ Set your .env variables:
 
 <p>To set the locations, click the Set on Map button next to Location A.  Mark the location of your dog.  The app will automatically switch to Location B, so you can simply click on the map a second time to mark the location of the trigger.  You may optionally provide a nickname for either location before clicking submit.  If you need to alter either location, simply click the corresponding Set on Map button and click on the map to make the adjustment.
   <br>
-<img width="455" alt="Screen Shot 2023-05-24 at 2 02 29 PM" src="https://github.com/melissamcl/the-hilton-project/assets/113558917/772f5b24-c23a-44f2-9803-aae976080fc5">
+<img width="455" alt="Screen Shot 2023-05-24 at 2 02 29 PM" src="https://github.com/melissamcl/the-hilton-project/assets/113558917/772f5b24-c23a-44f2-9803-aae976080fc5" align="center">
   </p>
 
 <h2>Next Iteration</h2>
