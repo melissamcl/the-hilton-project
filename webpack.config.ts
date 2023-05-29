@@ -1,48 +1,39 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-require('dotenv').config();
+import * as path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+dotenv.config();
 
-module.exports = {
+export default {
   resolve: {
-    fallback: {
-      path: false,
-      os: false,
-      fs: false,
-    },
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    // fallback: {
+    //   path: false,
+    //   os: false,
+    //   fs: false,
+    // },
   },
-  entry: path.resolve(__dirname, './client/index.js'),
+
+  entry: path.resolve(__dirname, './client/index.tsx'),
 
   output: {
     path: path.resolve(__dirname, './build'),
-    publicPath: '',
+    publicPath: '/',
     filename: 'bundle.js',
   },
 
-  mode: 'development',
+  mode: process.env.NODE_ENV ? process.env.NODE_ENV : 'development',
 
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', { targets: 'defaults' }],
-              ['@babel/preset-react', { targets: 'defaults' }],
-            ],
-          },
-        },
+        use: ['babel-loader', 'source-map-loader'],
       },
       {
-        test: /\.js$/,
-        enforce: 'pre',
-        use: ['source-map-loader'],
-      },
-      {
-        test: /\.(s(a|c)ss)$/,
+        test: /.(scss|sass|css)$/,
+        exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
